@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalori ve BMI Hesaplama</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function calculateResults() {
+            var age = document.getElementById('age').value;
+            var gender = document.querySelector('input[name="gender"]:checked').value;
+            var weight = document.getElementById('weight').value;
+            var height = document.getElementById('height').value;
+            var activity = document.getElementById('activity').value;
+
+            // Kalori hesaplama
+            var bmr;
+            if (gender === 'male') {
+                bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+            } else {
+                bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+            }
+
+            var calories;
+            switch (activity) {
+                case 'sedentary':
+                    calories = bmr * 1.2;
+                    break;
+                case 'light':
+                    calories = bmr * 1.375;
+                    break;
+                case 'moderate':
+                    calories = bmr * 1.55;
+                    break;
+                case 'active':
+                    calories = bmr * 1.725;
+                    break;
+                case 'very-active':
+                    calories = bmr * 1.9;
+                    break;
+                default:
+                    calories = bmr;
+            }
+
+            
+            height = height / 100; 
+            var bmi = weight / (height * height);
+
+            
+            document.getElementById('result').innerHTML = `
+                <p>Günlük Kalori İhtiyacınız: <strong>${calories.toFixed(2)}</strong> kalori</p>
+                <p>Vücut Kitle İndeksiniz (BMI): <strong>${bmi.toFixed(2)}</strong></p>
+            `;
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <h1>Kalori ve BMI Hesaplama</h1>
+        <nav>
+            <a href="index.html">Ana Sayfa</a>
+            <a href="beslenme.html">Beslenme</a>
+            <a href="antreman.html">Antreman</a>
+        </nav>
+    </div>
+    <div class="content">
+        <div class="calculator">
+            <div class="header-with-image">
+                <h2>Kalori ve BMI Hesaplama</h2>
+                <img src="bmi.png.webp" alt="Bmiresim">
+            </div>
+            <label for="age">Yaş:</label>
+            <input type="number" id="age" name="age" required>
+
+            <label>Cinsiyet:</label>
+            <div class="gender-label">
+                <input type="radio" id="male" name="gender" value="male" required>
+                <label for="male">Erkek</label>
+            </div>
+            <div class="gender-label">
+                <input type="radio" id="female" name="gender" value="female" required>
+                <label for="female">Kadın</label>
+            </div>
+
+            <label for="weight">Kilo (kg):</label>
+            <input type="number" id="weight" name="weight" required>
+
+            <label for="height">Boy (cm):</label>
+            <input type="number" id="height" name="height" required>
+
+            <label for="activity">Aktivite Seviyesi:</label>
+            <select id="activity" name="activity" required>
+                <option value="sedentary">Hareketsiz (Az veya hiç egzersiz)</option>
+                <option value="light">Hafif Aktif (Hafif egzersiz/sportif aktiviteler)</option>
+                <option value="moderate">Orta Aktif (Orta seviye egzersiz/sportif aktiviteler)</option>
+                <option value="active">Aktif (Yoğun egzersiz/sportif aktiviteler)</option>
+                <option value="very-active">Çok Aktif (Çok yoğun egzersiz/sportif aktiviteler)</option>
+            </select>
+
+            <button type="button" onclick="calculateResults()">Hesapla</button>
+
+            <div id="result" class="result"></div>
+        </div>
+    </div>
+</body>
+</html>
